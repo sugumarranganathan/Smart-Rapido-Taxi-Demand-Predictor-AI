@@ -178,3 +178,193 @@ h1{
 }
 
 """
+
+# ==========================================================
+# Generate Forecast
+# ==========================================================
+
+def generate_forecast(hours):
+
+    forecast = predict_demand(hours)
+
+    average = int(forecast["Predicted Taxi Demand"].mean())
+
+    maximum = int(forecast["Predicted Taxi Demand"].max())
+
+    minimum = int(forecast["Predicted Taxi Demand"].min())
+
+    summary = f"""
+    <div class="summary">
+
+    <h3>📊 Prediction Summary</h3>
+
+    <b>Average Demand :</b> {average}<br><br>
+
+    <b>Highest Demand :</b> {maximum}<br><br>
+
+    <b>Lowest Demand :</b> {minimum}
+
+    </div>
+    """
+
+    recommendation = business_recommendation(average)
+
+    recommendation = f"""
+
+    <div class="summary">
+
+    <h3>💼 Business Recommendation</h3>
+
+    <pre>{recommendation}</pre>
+
+    </div>
+
+    """
+
+    plt.figure(figsize=(10,4))
+
+    plt.plot(
+
+        forecast["Hour"],
+
+        forecast["Predicted Taxi Demand"],
+
+        marker="o",
+
+        linewidth=2
+
+    )
+
+    plt.title("Future Taxi Demand Forecast")
+
+    plt.xlabel("Forecast Hours")
+
+    plt.ylabel("Predicted Taxi Demand")
+
+    plt.grid(True)
+
+    plt.tight_layout()
+
+    image = "forecast.png"
+
+    plt.savefig(image)
+
+    plt.close()
+
+    csv_file = "forecast.csv"
+
+    forecast.to_csv(
+
+        csv_file,
+
+        index=False
+
+    )
+
+    return (
+
+        summary,
+
+        forecast,
+
+        image,
+
+        recommendation,
+
+        csv_file
+
+    )
+
+# ==========================================================
+# User Interface
+# ==========================================================
+
+with gr.Blocks(
+
+    title="Smart Rapido Taxi Demand Predictor",
+
+    css=css
+
+) as demo:
+
+    gr.Markdown("""
+
+# 🚖 Smart Rapido Taxi Demand Predictor
+
+Predict future taxi demand using an **LSTM Deep Learning Model**.
+
+""")
+
+    with gr.Row():
+
+        hours = gr.Dropdown(
+
+            choices=[6,12,24,48],
+
+            value=24,
+
+            label="📅 Forecast Hours"
+
+        )
+
+        predict_btn = gr.Button(
+
+            "🚀 Predict Taxi Demand",
+
+            variant="primary"
+
+        )
+
+        clear_btn = gr.ClearButton()
+
+    summary = gr.HTML()
+
+    with gr.Row():
+
+        table = gr.Dataframe(
+
+            label="📋 Forecast Table"
+
+        )
+
+        graph = gr.Image(
+
+            label="📈 Demand Forecast"
+
+        )
+
+    recommendation = gr.HTML()
+
+    download = gr.File(
+
+        label="📥 Download Forecast CSV"
+
+    )
+
+    predict_btn.click(
+
+        fn=generate_forecast,
+
+        inputs=hours,
+
+        outputs=[
+
+            summary,
+
+            table,
+
+            graph,
+
+            recommendation,
+
+            download
+
+        ]
+
+    )
+
+demo.queue()
+
+demo.launch()
+
+

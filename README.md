@@ -2,7 +2,7 @@ https://colab.research.google.com/drive/16ToD1diLg_A9QomPTVqQBurUwHOjYa9D#scroll
 
 https://sugumarai-smart-rapido-taxi-demand-predictor.hf.space
 
-# 🚖 Smart Rapido Taxi Demand Predictor
+# 🚖 Smart Rapido Taxi Demand Predictor AI
 
 Predict future taxi demand using an **LSTM (Long Short-Term Memory) Deep Learning Model**. This application forecasts taxi demand for upcoming hours and provides business recommendations to help taxi operators optimize driver allocation and improve service efficiency.
 

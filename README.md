@@ -102,7 +102,6 @@ Smart-Rapido-Taxi-Demand-Predictor/
 │
 ├── app.py
 ├── taxi_demand_lstm_model.keras
-├── scaler.pkl
 ├── taxi_demand.csv
 ├── requirements.txt
 ├── README.md

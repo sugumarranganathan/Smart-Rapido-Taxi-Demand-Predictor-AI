@@ -1,5 +1,6 @@
 https://colab.research.google.com/drive/16ToD1diLg_A9QomPTVqQBurUwHOjYa9D#scrollTo=iQvdgjfMPHDD
 
+https://sugumarai-smart-rapido-taxi-demand-predictor.hf.space
 
 # 🚖 Smart Rapido Taxi Demand Predictor
 
